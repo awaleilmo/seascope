@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+class report_klinik extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'polda_id',
+        'personil_jml',
+        'personil_sat',
+        'lokasi',
+        'jml_peserta',
+        'keluhan_peserta',
+        'obat',
+        'keterangan',
+        'foto',
+        'tanggal',
+        'waktu'
+    ];
+
+    public function Foto(): HasMany
+    {
+        return $this->hasMany(foto_klinik::class, 'report_klinik_id', 'id');
+    }
+    public function Polda(): HasOne
+    {
+        return $this->hasOne(polda::class, 'id', 'polda_id');
+    }
+}
