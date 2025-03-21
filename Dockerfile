@@ -21,28 +21,28 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install dom
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /app
 
 # Install dependencies Laravel
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+RUN composer install
 
 # Copy seluruh file Laravel
 COPY . .
 
 # Set permissions
-RUN chmod -R 777 storage bootstrap/cache
+#RUN #chmod -R 777 storage bootstrap/cache
 
 # Generate APP_KEY
-RUN php artisan key:generate
+#RUN #php artisan key:generate
 
 # Clear cache
-RUN php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan cache:clear
+#RUN php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan cache:clear
 
 # Expose port 8000 untuk FrankenPHP
-EXPOSE 8000
+#EXPOSE 8000
 
 # Jalankan FrankenPHP dengan konfigurasi Laravel Octane
 ENTRYPOINT ["php", "artisan", "octane:frankenphp", "--host=0.0.0.0", "--port=8000"]
