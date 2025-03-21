@@ -1,8 +1,17 @@
 # Gunakan base image FrankenPHP dengan PHP 8.3
 FROM dunglas/frankenphp:php8.3
 
-# Install dependencies yang diperlukan untuk Laravel
-RUN install-php-extensions pcntl gd intl mysql sqlite3 sockets zip dom
+# Install dependencies sistem yang diperlukan
+RUN apt-get update && apt-get install -y \
+    zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev \
+    libicu-dev libsqlite3-dev sqlite3 libzip-dev unzip \
+    libonig-dev libxml2-dev libssl-dev libcurl4-openssl-dev \
+    git curl nano supervisor \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install ekstensi PHP secara manual
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pcntl gd intl pdo_mysql pdo_sqlite sockets zip dom
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
