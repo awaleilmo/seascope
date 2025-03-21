@@ -1,7 +1,7 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import {Link} from '@inertiajs/vue3';
-import bg from '@/Assets/bg7.jpg'
+import bg from '@/Assets/bg1.jpg'
 
 const cssCustom = {
     backgroundImage: `url("${bg}")`,

@@ -199,6 +199,7 @@ const initMap = async (bMap, layerControl) => {
 const aisData = async (bMap, layerControl) => {
     let aisLayer = L.layerGroup().addTo(bMap);
     layerControl.addOverlay(aisLayer, "AIS Data");
+    let timeOut = true;
     const fetchDataAis = async () => {
         try {
             let response = await aisService.serviceGet();
@@ -233,13 +234,17 @@ const aisData = async (bMap, layerControl) => {
                         );
                     }
                 });
+                timeOut = true
             }
         } catch (error) {
+            timeOut = true
             console.error("Error fetching AIS data:", error);
         }
     }
-
-    setInterval(fetchDataAis, 5000);
+    if(timeOut){
+        timeOut = false
+        setInterval(fetchDataAis, 5000);
+    }
     await fetchDataAis();
 }
 const startUp = async () => {
