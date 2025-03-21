@@ -56,9 +56,5 @@ RUN npm install && npm run build
 # Beri izin akses pada storage dan bootstrap/cache
 RUN chmod -R 777 storage bootstrap/cache
 
-# Copy entrypoint untuk migration dan seeding
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh && ls -l /usr/local/bin/docker-entrypoint.sh
-
-# Gunakan entrypoint script sebelum menjalankan aplikasi
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+# Tunggu database siap, jalankan migration dan Laravel Octane langsung dalam Dockerfile
+CMD sleep 10 && php artisan migrate --force && exec php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --watch
