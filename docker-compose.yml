@@ -12,4 +12,15 @@ services:
     volumes:
       - .:/app
     environment:
-      - .env
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=mysql
+      - DB_HOST=192.168.101.130  # Sesuaikan dengan host database Anda
+      - DB_PORT=3306
+      - DB_DATABASE=seascope
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - SESSION_DRIVER=file
+      - SESSION_DOMAIN=null
+    restart: always
