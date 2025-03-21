@@ -28,9 +28,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 COPY . /app
 
 # Install dependencies dan generate APP_KEY
-RUN composer install --no-dev --optimize-autoloader && \
-    php artisan key:generate && \
-    chmod -R 777 storage bootstrap/cache
+RUN composer install
+RUN chmod -R 777 storage bootstrap/cache
 
 # Copy script untuk menunggu database
 #COPY wait-for-db.sh /usr/local/bin/wait-for-db.sh
