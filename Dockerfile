@@ -30,7 +30,6 @@ COPY . /app
 # Install dependencies dan generate APP_KEY
 RUN composer install --no-dev --optimize-autoloader && \
     php artisan key:generate && \
-    php artisan migrate \
     chmod -R 777 storage bootstrap/cache
 
 # Copy script untuk menunggu database
