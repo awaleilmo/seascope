@@ -48,15 +48,3 @@ docker run -d \
   mysql:8
 ```
 
-## Install Composer on Docker
-```
-docker build -t myapp-composer -f Dockerfile.composer .
-docker run --rm -v $(pwd):/app myapp-composer
-```
-
-## Install Node on Docker
-```
-docker build -t myapp-node -f Dockerfile.node .
-docker run --rm -v $(pwd):/app myapp-node
-```
-
