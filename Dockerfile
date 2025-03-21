@@ -2,7 +2,7 @@
 FROM dunglas/frankenphp:php8.3
 
 # Install dependencies yang diperlukan untuk Laravel
-RUN install-php-extensions pcntl gd intl pdo_mysql pdo_sqlite sockets zip
+RUN install-php-extensions pcntl gd intl mysql sqlite3 sockets zip dom
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -14,7 +14,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 # Install dependencies Laravel
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+RUN composer install
 
 # Copy seluruh file Laravel
 COPY . .
