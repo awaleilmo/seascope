@@ -37,5 +37,26 @@ php artisan migrate --seed
 php artisan make:model NameModel -mc
 ```
 
-## 
+## Install Mysql on Docker
+```
+docker run -d \
+  --name mysql-container \
+  -e MYSQL_ROOT_PASSWORD=YourPasswordKey \
+  -e MYSQL_DATABASE=YourDatabase \
+  -p 3306:3306 \
+  -v mysql_data:/var/lib/mysql \
+  mysql:8
+```
+
+## Install Composer on Docker
+```
+docker build -t myapp-composer -f Dockerfile.composer .
+docker run --rm -v $(pwd):/app myapp-composer
+```
+
+## Install Node on Docker
+```
+docker build -t myapp-node -f Dockerfile.node .
+docker run --rm -v $(pwd):/app myapp-node
+```
 
