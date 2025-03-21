@@ -21,6 +21,3 @@ services:
             - DB_DATABASE=seascope
             - DB_USERNAME=root
             - DB_PASSWORD=root
-        depends_on:
-            db:
-                condition: service_healthy
