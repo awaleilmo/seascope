@@ -1,48 +1,39 @@
-services:
-    laravel.test:
-        build:
-            context: ./vendor/laravel/sail/runtimes/8.3
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-        image: sail-8.3/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '81:80'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
-        volumes:
-            - '.:/var/www/html'
-        networks:
-            - sail
+version: '3.8'
 
-    laravel.vite:
-        build:
-            context: ./vendor/laravel/sail/runtimes/8.3
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-        image: sail-8.3/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
-            SUPERVISOR_PHP_COMMAND: 'npm run dev'
-        volumes:
-            - '.:/var/www/html'
-        networks:
-            - sail
-networks:
-    sail:
-        driver: bridge
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=http://localhost:8000
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=seascope
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - OCTANE_SERVER=swoole
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: seascope
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
