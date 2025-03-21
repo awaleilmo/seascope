@@ -19,8 +19,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install Node.js dan npm
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
-    corepack enable && \
-    npm install -g chokidar-cli
+    npm install -g npm chokidar-cli
 
 # Set working directory
 WORKDIR /var/www/html
