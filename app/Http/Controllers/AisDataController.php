@@ -10,24 +10,8 @@ class AisDataController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'msg_type' => 'required|integer',
-            'repeat' => 'required|integer',
-            'mmsi' => 'required|integer',
-            'status' => 'nullable|integer',
-            'turn' => 'nullable|numeric',
-            'speed' => 'nullable|numeric',
-            'accuracy' => 'nullable|boolean',
-            'lon' => 'nullable|numeric',
-            'lat' => 'nullable|numeric',
-            'course' => 'nullable|numeric',
-            'heading' => 'nullable|integer',
-            'second' => 'nullable|integer',
-            'maneuver' => 'nullable|integer',
-            'spare_1' => 'nullable|string',
-            'raim' => 'nullable|boolean',
-            'radio' => 'nullable|integer',
-        ]);
+
+        $data = $request->all();
 
         AisData::create($data);
 
