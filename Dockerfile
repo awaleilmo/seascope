@@ -32,13 +32,4 @@ RUN composer install --no-dev --optimize-autoloader && \
     php artisan key:generate && \
     chmod -R 777 storage bootstrap/cache
 
-# Buat supervisord config untuk menjaga Octane tetap berjalan
-RUN echo "[supervisord]" > /etc/supervisor/supervisord.conf && \
-    echo "nodaemon=true" >> /etc/supervisor/supervisord.conf && \
-    echo "[program:octane]" >> /etc/supervisor/supervisord.conf && \
-    echo "command=php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --watch" >> /etc/supervisor/supervisord.conf && \
-    echo "autostart=true" >> /etc/supervisor/supervisord.conf && \
-    echo "autorestart=true" >> /etc/supervisor/supervisord.conf
-
-# Jalankan supervisord untuk memastikan Octane tetap hidup
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD sleep 10 && exec php artisan octane:start --server=swoole --host=0.0.0.0 --port=8000 --watch
