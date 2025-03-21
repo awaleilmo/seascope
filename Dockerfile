@@ -48,7 +48,7 @@ COPY . .
 RUN git config --global --add safe.directory /var/www/html
 
 # Install dependencies Composer (PHP 8.3 sudah kompatibel)
-RUN composer install
+RUN composer install --ignore-platform-reqs --no-interaction --no-progress --no-dev --optimize-autoloader
 
 # Install dependencies Node.js dan build frontend
 RUN npm install && npm run build
