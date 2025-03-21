@@ -30,7 +30,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 # Install dependencies Laravel
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
 # Copy seluruh file Laravel
 COPY . .
