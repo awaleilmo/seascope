@@ -27,7 +27,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 
 # Install dependencies Laravel
-RUN composer install
+#RUN composer install
 
 # Copy seluruh file Laravel
 COPY . .
