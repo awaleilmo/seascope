@@ -34,8 +34,8 @@ RUN composer install --no-dev --optimize-autoloader && \
     chmod -R 777 storage bootstrap/cache
 
 # Copy script untuk menunggu database
-COPY wait-for-db.sh /usr/local/bin/wait-for-db.sh
-RUN chmod +x /usr/local/bin/wait-for-db.sh
+#COPY wait-for-db.sh /usr/local/bin/wait-for-db.sh
+#RUN chmod +x /usr/local/bin/wait-for-db.sh
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
 
