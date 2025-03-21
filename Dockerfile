@@ -30,6 +30,8 @@ COPY . /app
 # Install dependencies dan generate APP_KEY
 RUN composer install
 RUN chmod -R 777 storage bootstrap/cache
+CMD ./vendor/bin/sail up
+CMD ./vendor/bin/sail artisan octane:install --server=frankenphp
 
 # Copy script untuk menunggu database
 #COPY wait-for-db.sh /usr/local/bin/wait-for-db.sh
