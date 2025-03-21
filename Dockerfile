@@ -58,7 +58,7 @@ RUN chmod -R 777 storage bootstrap/cache
 
 # Copy entrypoint untuk migration dan seeding
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh && ls -l /usr/local/bin/docker-entrypoint.sh
 
 # Gunakan entrypoint script sebelum menjalankan aplikasi
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
