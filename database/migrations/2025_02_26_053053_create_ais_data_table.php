@@ -32,6 +32,7 @@ return new class extends Migration {
             $table->integer('slots_to_allocate')->nullable();
             $table->boolean('keep_flag')->nullable();
             $table->integer('altitude')->nullable(); // Untuk SAR Aircraft (Type 9)
+            $table->string('channel', 1)->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->integer('msg_type')->description('AIS Message Type (5, 24)');
             $table->integer('repeat_indicator')->nullable()->description('indikator pengulangan (0-3)');
             $table->bigInteger('mmsi')->nullable()->description('nomor indetifikasi unik kapal');
+            $table->string('message_id')->nullable();
+            $table->integer('fragment_count')->nullable();
             $table->integer('ais_version')->nullable()->description('versi AIS');
             $table->bigInteger('imo_number')->nullable()->description('nomor IMO');
             $table->string('call_sign', 10)->nullable()->description('call sign kapal');
