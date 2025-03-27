@@ -1,26 +1,67 @@
 version: '3.8'
 
 services:
-  frankenphp:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: seascope
-    entrypoint: php artisan octane:frankenphp --host=0.0.0.0 --port=8000
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-    environment:
-      - APP_ENV=production
-      - APP_DEBUG=false
-      - APP_URL=http://localhost:8000
-      - DB_CONNECTION=mysql
-      - DB_HOST=192.168.101.130  # Sesuaikan dengan host database Anda
-      - DB_PORT=3306
-      - DB_DATABASE=seascope
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
-      - SESSION_DRIVER=file
-      - SESSION_DOMAIN=null
-    restart: always
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: seascope
+        entrypoint: php artisan octane:frankenphp
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/app
+        environment:
+            - APP_ENV=production
+            - APP_DEBUG=false
+            - APP_URL=http://localhost:8000
+            - DB_CONNECTION=pgsql
+            - DB_HOST=db
+            - DB_PORT=5432
+            - DB_DATABASE=seascope
+            - DB_USERNAME=root
+            - DB_PASSWORD=root
+            - SESSION_DRIVER=file
+            - SESSION_DOMAIN=null
+        restart: unless-stopped
+        working_dir: /app
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_started
+        networks:
+            - laravel_network
+
+    db:
+        image: postgres:latest
+        container_name: postgres_db
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: seascope
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - laravel_network
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U root -d seascope"]
+            interval: 10s
+            retries: 5
+            start_period: 10s
+
+    redis:
+        image: redis:alpine
+        container_name: laravel_redis
+        restart: unless-stopped
+        networks:
+            - laravel_network
+
+volumes:
+    pgdata:
+
+networks:
+    laravel_network:

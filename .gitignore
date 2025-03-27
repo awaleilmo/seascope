@@ -25,3 +25,7 @@ rr
 .rr.yaml
 
 **/caddy
+
+**/caddy
+frankenphp
+frankenphp-worker.php
